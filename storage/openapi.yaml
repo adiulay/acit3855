@@ -1,0 +1,139 @@
+openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+# servers:
+#   - description: SwaggerHub API Auto Mocking
+#     url: https://virtserver.swaggerhub.com/adiulay/Baggage-Handling/1.0.0
+info:
+  description: This API receives baggages and assigns it either inbound/outbound
+  version: "1.0.0"
+  title: Baggage Handling API
+  contact:
+    email: jtruong20@my.bcit.ca
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: domestic
+    description: baggage's inbound outbound for domestic
+  - name: international
+    description: baggage's inbound outbound for international
+paths:
+  /baggage/domestic:
+    get:
+      tags: 
+        - domestic
+      summary: gets baggage domestic bag
+      operationId: app.get_baggage_domestic
+      description: Gets the baggage domestic info added after a timestamp
+      parameters: 
+        - name: timestamp
+          in: query
+          description: Limits the number of baggages on a page
+          schema:
+            type: string
+            format: date-time
+            example: 2016-08-29T09:12:33.001Z
+      responses:
+        '200':
+          description: Successfully returned a list of domestic baggages events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DomesticBaggage'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /baggage/international:
+    get:
+      tags: 
+        - international
+      summary: gets baggage international bag
+      operationId: app.get_baggage_international
+      description: Gets the baggage international info added after a timestamp
+      parameters: 
+        - name: timestamp
+          in: query
+          description: Limits the number of baggages on a page
+          schema:
+            type: string
+            format: date-time
+            example: 2016-08-29T09:12:33.001Z
+      responses:
+        '200':
+          description: Successfully returned a list of international bagagges events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InternationalBaggage'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  schemas:
+    DomesticBaggage:
+      type: object
+      required:
+        - baggage_id
+        - weight_kg
+        - destination_province
+        - postal-code
+        - timestamp
+      properties:
+        baggage_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        weight_kg:
+          type: integer
+          example: 25
+        destination_province:
+          type: string
+          format: Province
+          example: British Columbia
+        postal-code:
+          type: string
+          format: postal code
+          example: V5G 3H2
+        timestamp:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+    InternationalBaggage:
+      required:
+        - baggage_id
+        - weight_kg
+        - destination
+        - timestamp
+      properties:
+        baggage_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        weight_kg:
+          type: integer
+          example: 25
+        destination:
+          type: string
+          format: Country
+          example: China
+        timestamp:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+      type: object

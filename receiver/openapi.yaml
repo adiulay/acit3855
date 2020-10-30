@@ -1,0 +1,113 @@
+openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+# servers:
+#   - description: SwaggerHub API Auto Mocking
+#     url: https://virtserver.swaggerhub.com/adiulay/Baggage-Handling/1.0.0
+info:
+  description: This API receives baggages and assigns it either inbound/outbound
+  version: "1.0.0"
+  title: Baggage Handling API
+  contact:
+    email: jtruong20@my.bcit.ca
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: domestic
+    description: baggage's inbound outbound for domestic
+  - name: international
+    description: baggage's inbound outbound for international
+paths:
+  /baggage/domestic:
+    post:
+      tags:
+        - domestic
+      summary: adds baggage to airport database (domestic)
+      operationId: app.add_baggage_domestic
+      description: Adds a baggage to the system
+      responses:
+        '201':
+          description: baggage item stored (domestic)
+        '400':
+          description: 'invalid input baggage id, object invalid'
+        '409':
+          description: baggage item already in system
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomesticBaggage'
+        description: Baggage item to add (Domestic)
+  /baggage/international:
+    post:
+      tags:
+        - international
+      summary: adds baggage to airport database (international)
+      operationId: app.add_baggage_international
+      description: Adds the baggage info into international
+      responses:
+        '201':
+          description: baggage item stored (international)
+        '400':
+          description: 'invalid input baggage id, object invalid'
+        '409':
+          description: baggage item already in database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InternationalBaggage'
+        description: Baggage item to add (International)
+components:
+  schemas:
+    DomesticBaggage:
+      type: object
+      required:
+        - baggage_id
+        - weight_kg
+        - destination_province
+        - postal-code
+        - timestamp
+      properties:
+        baggage_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        weight_kg:
+          type: integer
+          example: 25
+        destination_province:
+          type: string
+          format: Province
+          example: British Columbia
+        postal-code:
+          type: string
+          format: postal code
+          example: V5G 3H2
+        timestamp:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+    InternationalBaggage:
+      required:
+        - baggage_id
+        - weight_kg
+        - destination
+        - timestamp
+      properties:
+        baggage_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        weight_kg:
+          type: integer
+          example: 25
+        destination:
+          type: string
+          format: Country
+          example: China
+        timestamp:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+      type: object
