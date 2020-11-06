@@ -38,7 +38,8 @@ def get_stats():
             show_stats = {
                 "num_domestic_baggages": data_stats["num_domestic_baggages"],
                 "num_international_baggages": data_stats["num_international_baggages"],
-                "total_baggages": data_stats["total_baggages"]
+                "total_baggages": data_stats["total_baggages"],
+                "last_updated": data_stats["last_updated"]
             }
             
             logger.debug('Get stats with num_domestic_baggages: {}, num_international_baggages: {}, total_baggages: {}'.format(
