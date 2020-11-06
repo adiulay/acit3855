@@ -5,6 +5,8 @@ import requests
 
 from datetime import datetime
 
+from flask_cors import CORS, cross_origin
+
 import yaml
 import logging
 import logging.config
@@ -88,6 +90,8 @@ def get_baggage_international(index):
             count += 1
         
     logger.error("Could not find International Baggage at index {}".format(index))
+    CORS(app.app)
+    app.app.config['CORS_HEADERS'] = 'Content-Type'
     return { "message": "Not Found" }, 404
 
 app = connexion.FlaskApp(__name__, specification_dir='')
