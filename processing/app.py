@@ -66,10 +66,6 @@ def populate_stats():
     logger.info('Periodic processing for stats has been initiated')
     
     stats_info = ''
-    current_time = {
-        "timestamp" : datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
-        # "timestamp" : "2020-07-31T03:24:36Z"
-        }
     
     try:
         with open(app_config['datastore']['filename'], 'r') as f:
@@ -90,6 +86,10 @@ def populate_stats():
             data_read = f.read()
             
             stats_info = json.loads(data_read)
+    
+    current_time = {
+        "timestamp" : stats_info['last_updated']
+    }
             
     get_domestic_baggages = requests.get('{}/baggage/domestic'.format(app_config['eventstore']['url']), params=current_time)
     
