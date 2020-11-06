@@ -98,7 +98,7 @@ def populate_stats():
     get_international_baggages = requests.get('{}/baggage/international'.format(app_config['eventstore']['url']), params=current_time)
     
     # logs for domestic baggages list
-    if (get_domestic_baggages.status_code != 200):
+    if (get_domestic_baggages.status_code != 201):
         logger.error('Could not receive events GET request domestic baggages list with status code {}'.format(
             get_domestic_baggages.status_code))
         
@@ -113,7 +113,7 @@ def populate_stats():
     #         get_domestic_baggages.status_code))
     
     # logs for international baggages list
-    if (get_international_baggages.status_code != 200):
+    if (get_international_baggages.status_code != 201):
         logger.error('Could not receive events GET request international baggages list with status code {}'.format(
             get_international_baggages.status_code
         ))
