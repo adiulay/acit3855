@@ -1,28 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
-import SearchButton from './components/searchButton'
-import Form from './components/Form'
+// import logo from './logo.svg';
+// import './App.css';
+import Stats from './components/Stats';
+import SearchIndex from './components/SearchIndex';
+import RandomBaggageInfo from './components/RandomBaggageInfo';
+import {
+  AppContainer,
+  ChildContainer,
+  // Border,
+  Title,
+  Content
+} from './css/styles';
 
 function App() {
   return (
-    <div className="App">
+    <AppContainer>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save sto reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Form />
-        <SearchButton />
+        <Title>Baggage Handling</Title>
+        <ChildContainer>
+          <Content>
+            <Stats />
+          </Content>
+          
+          <Content>
+            <SearchIndex />
+          </Content>
+          
+          <Content>
+            <RandomBaggageInfo />
+          </Content>
+        </ChildContainer>
       </header>
-    </div>
+    </AppContainer>
   );
 }
 
