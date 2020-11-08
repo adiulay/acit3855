@@ -122,8 +122,11 @@ def populate_stats():
     get_international_baggages.status_code))
     
     if stats_info['last_updated'] <= datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'):
-        stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + len(get_international_baggages.json())
-        stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
+        if get_domestic_baggages.status_code != 500:
+            stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + len(get_international_baggages.json())
+        
+        if get_international_baggages.status_code != 500:
+            stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
     # except:
     #     logger.error('Could not receive events GET request international baggages list with status code {}'.format(
     #         get_international_baggages.status_code
