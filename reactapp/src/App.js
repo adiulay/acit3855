@@ -8,14 +8,28 @@ import {
   ChildContainer,
   // Border,
   Title,
+  Time,
   Content
 } from './css/styles';
 
+import React, {useState, useEffect} from 'react';
+
 function App() {
+  const [date, setDate] = useState(new Date().toString())
+
+  function clock() {
+    setDate(new Date().toString());
+  };
+
+  useEffect(() => {
+    setInterval(clock, 1000);
+  })
+
   return (
     <AppContainer>
       <header className="App-header">
-        <Title>Baggage Handling</Title>
+        <Title>🛫Baggage DashBoard💼</Title>
+        <Time>{date}</Time>
         <ChildContainer>
           <Content>
             <Stats />

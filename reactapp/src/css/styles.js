@@ -9,6 +9,10 @@ export const Title = styled.h1`
     text-align: center;
 `;
 
+export const Time = styled.h3`
+    text-align: center;
+`;
+
 export const Content = styled.div`
     border-radius: 10px;
     background-color: #f2f2f2;
