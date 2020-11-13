@@ -5,3 +5,5 @@ scheduler:
     period_sec: 6
 eventstore:
     url: http://localhost:8090
+datastore:
+    filename: /data/data.json
