@@ -50,6 +50,7 @@ services:
             - TARGET_ENV=test
         volumes:
             - /home/ubuntu/config/receiver:/config
+            - /home/ubuntu/config/logs:/logs
         depends_on:
             - "kafka"
     storage:
@@ -60,6 +61,7 @@ services:
             - TARGET_ENV=test
         volumes:
             - /home/ubuntu/config/storage:/config
+            - /home/ubuntu/config/logs:/logs
         depends_on:
             - "kafka"
             - "db"
@@ -72,6 +74,7 @@ services:
             - TARGET_ENV=test
         volumes:
             - /home/ubuntu/config/processing:/config
+            - /home/ubuntu/config/logs:/logs
         depends_on:
             - "storage"
     audit_log:
@@ -82,6 +85,7 @@ services:
             - TARGET_ENV=test
         volumes:
             - /home/ubuntu/config/audit_log:/config
+            - /home/ubuntu/config/logs:/logs
         depends_on:
             - "kafka"
     # Names our volume
