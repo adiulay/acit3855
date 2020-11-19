@@ -117,7 +117,7 @@ def get_baggage_international(index):
 app = connexion.FlaskApp(__name__, specification_dir='')
 CORS(app.app)
 app.app.config['CORS_HEADERS'] = 'Content-Type'
-app.add_api('audit_api.yaml', base_path='/', strict_validation=True, validate_responses=True)
+app.add_api('audit_api.yaml', base_path='/audit_log', strict_validation=True, validate_responses=True)
 
 if __name__ == '__main__':
     app.run(port=8110)
