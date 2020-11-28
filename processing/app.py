@@ -125,6 +125,8 @@ def populate_stats():
     
     logger.info('INFO ON JSON {}'.format(get_domestic_baggages.json()))
     
+    logger.info('WHAT TYPE IS THIS: {}'.format(type(get_domestic_baggages.json())))
+    
     
     # logger.info('{} events received from international baggages GET request with status code {}'.format(
     # len(get_international_baggages.json()),
@@ -134,6 +136,7 @@ def populate_stats():
     if stats_info['last_updated'] <= datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'):
         logger.info("PASSES THE DATETIME CHECK...")
         if isinstance(get_domestic_baggages.json(), list):
+            logger.info("hello? this is a list right..?")
             stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + len(get_international_baggages.json())
         else:
             logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
