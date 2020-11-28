@@ -136,7 +136,7 @@ def populate_stats():
     if stats_info['last_updated'] <= datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'):
         logger.info("PASSES THE DATETIME CHECK...")
         if isinstance(get_domestic_baggages.json(), list):
-            logger.info("hello? this is a list right..?")
+            logger.info("PASSES THIS IS A LIST")
             stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
         else:
             logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
