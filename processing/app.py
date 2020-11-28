@@ -119,44 +119,47 @@ def populate_stats():
     get_international_baggages = requests.get('{}/baggage/international'.format(app_config['eventstore']['url']), params=current_time)
     
     
-    logger.info('{} events received from domestic baggages GET request with status code {}'.format(
-    len(get_domestic_baggages.json()),
-    get_domestic_baggages.status_code))
+    # logger.info('{} events received from domestic baggages GET request with status code {}'.format(
+    # len(get_domestic_baggages.json()),
+    # get_domestic_baggages.status_code))
+    
+    # debugging
+    logger.info("DOMESTIC: {}".format(get_domestic_baggages))
     
     
-    logger.info('{} events received from international baggages GET request with status code {}'.format(
-    len(get_international_baggages.json()),
-    get_international_baggages.status_code))
+    # logger.info('{} events received from international baggages GET request with status code {}'.format(
+    # len(get_international_baggages.json()),
+    # get_international_baggages.status_code))
 
 
-    if stats_info['last_updated'] <= datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'):
-        if get_domestic_baggages.status_code != 500:
-            stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + len(get_international_baggages.json())
-        else:
-            logger.error('Could not receive events GET request domestic baggages list with status code {}'.format(
-                get_domestic_baggages.status_code
-            ))
+    # if stats_info['last_updated'] <= datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'):
+    #     if get_domestic_baggages.status_code != 500:
+    #         stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + len(get_international_baggages.json())
+    #     else:
+    #         logger.error('Could not receive events GET request domestic baggages list with status code {}'.format(
+    #             get_domestic_baggages.status_code
+    #         ))
         
-        if get_international_baggages.status_code != 500:
-            stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
-        else:
-            logger.error('Could not receive events GET request international baggages list with status code {}'.format(
-                get_international_baggages.status_code
-            ))
+    #     if get_international_baggages.status_code != 500:
+    #         stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
+    #     else:
+    #         logger.error('Could not receive events GET request international baggages list with status code {}'.format(
+    #             get_international_baggages.status_code
+    #         ))
 
 
-    # Updating data.json file
-    stats_info["total_baggages"] = stats_info["num_domestic_baggages"] + stats_info["num_international_baggages"]
-    stats_info["last_updated"] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+    # # Updating data.json file
+    # stats_info["total_baggages"] = stats_info["num_domestic_baggages"] + stats_info["num_international_baggages"]
+    # stats_info["last_updated"] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
     
-    with open(app_config['datastore']['filename'], 'w') as f:
-        f.write(json.dumps(stats_info, indent=4))
+    # with open(app_config['datastore']['filename'], 'w') as f:
+    #     f.write(json.dumps(stats_info, indent=4))
         
-    logger.debug("Data store updated with num_domestic_baggages: {}, num_international_baggages: {}, total_baggages: {}".format(
-        stats_info["num_domestic_baggages"],
-        stats_info["num_international_baggages"],
-        stats_info["total_baggages"]
-    ))
+    # logger.debug("Data store updated with num_domestic_baggages: {}, num_international_baggages: {}, total_baggages: {}".format(
+    #     stats_info["num_domestic_baggages"],
+    #     stats_info["num_international_baggages"],
+    #     stats_info["total_baggages"]
+    # ))
     
     logger.info('Period processing for stats has ended')
     
