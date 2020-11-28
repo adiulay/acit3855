@@ -133,14 +133,16 @@ def populate_stats():
 
     if stats_info['last_updated'] <= datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'):
         logger.info("PASSES THE DATETIME CHECK...")
-        if get_domestic_baggages.status_code == "200":
+        if isinstance(get_domestic_baggages.json(), list):
             stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + len(get_international_baggages.json())
-        # else:
-        #     logger.error('Could not receive events GET request domestic baggages list with status code {}'.format(
-        #         get_domestic_baggages.status_code
-        #     ))
+        else:
+            logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
+            logger.error(get_domestic_baggages.json())
+            # logger.error('Could not receive events GET request domestic baggages list with status code {}'.format(
+            #     get_domestic_baggages.status_code
+            # ))
         
-        # if get_international_baggages.status_code == 200:
+        # if get_international_baggages.status_code != 500:
         #     stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
         # else:
         #     logger.error('Could not receive events GET request international baggages list with status code {}'.format(
