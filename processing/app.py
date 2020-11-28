@@ -126,7 +126,6 @@ def populate_stats():
     # debugging
     json_domestic_baggages = get_domestic_baggages.json()
     
-    logger.info(json_domestic_baggages.status_code)
     logger.info("Domestic: {}".format(json_domestic_baggages))
     
     
