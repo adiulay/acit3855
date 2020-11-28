@@ -130,7 +130,7 @@ def populate_stats():
 
 
     if stats_info['last_updated'] <= datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'):
-        if get_domestic_baggages.status_code == 200:
+        if get_domestic_baggages.status_code == "200":
             stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + len(get_international_baggages.json())
         else:
             logger.error('Could not receive events GET request domestic baggages list with status code {}'.format(
