@@ -136,14 +136,14 @@ def populate_stats():
     if stats_info['last_updated'] <= datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'):
         logger.info("PASSES THE DATETIME CHECK...")
         if isinstance(get_domestic_baggages.json(), list):
-            logger.info("PASSES THIS IS A LIST")
+            logger.info("DOMESTIC PASSES CHECK ITS A LIST")
             stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
         else:
             logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
             logger.error('DOMESTIC: {}'.format(get_domestic_baggages.json()))
         
         if isinstance(get_international_baggages.json(), list):
-            logger.info("PASSES THIS IS A LIST")
+            logger.info("INTERNATIONAL PASSES CHECK ITS A LIST")
             stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + len(get_international_baggages.json())
         else:
             logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
