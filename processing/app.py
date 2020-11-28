@@ -124,7 +124,7 @@ def populate_stats():
     # get_domestic_baggages.status_code))
     
     # debugging
-    logger.info("DOMESTIC: {}".format(get_domestic_baggages))
+    logger.info("DOMESTIC: {}".format(get_domestic_baggages.json()))
     
     
     # logger.info('{} events received from international baggages GET request with status code {}'.format(
