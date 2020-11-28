@@ -61,6 +61,7 @@ def add_baggage_domestic(body):
     producer.produce(msg_str.encode("utf-8"))
     
     logger.info('Returned event Add Domestic Baggage - ID: {}'.format(body['baggage_id']))
+    logger.info('hello this is a code change')
     
     return NoContent, 201
     
