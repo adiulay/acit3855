@@ -1,7 +1,8 @@
+# do not use this, its on the other branch that functions it
 version: 1
 datastore:
     filename: data.json
 scheduler:
-    period_sec: 15
+    period_sec: 10
 eventstore:
     url: http://localhost:8090
