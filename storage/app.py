@@ -60,6 +60,10 @@ DB_ENGINE = create_engine('mysql+pymysql://{}:{}@{}:{}/{}'.format(
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
+# kafka stuff
+HOSTNAME = "{}:{}".format(app_config["events"]["hostname"], app_config["events"]["port"])
+CLIENT = KafkaClient(hosts=HOSTNAME)
+TOPIC = CLIENT.topics[app_config["events"]["topic"]]
 
 def add_baggage_domestic(body):
     """ logs domestic baggage (operationID from openapi) into database """
@@ -154,10 +158,6 @@ def get_baggage_international(timestamp):
     
     return results_list, 200
 
-hostname = "{}:{}".format(app_config["events"]["hostname"], app_config["events"]["port"])
-
-client = KafkaClient(hosts=hostname)
-TOPIC = client.topics[app_config["events"]["topic"]]
 
 def process_messages():
     """ Process event messages via multi-threading """
@@ -182,7 +182,6 @@ def process_messages():
     
     # This is blocking - it will wait for a new message
     for msg in consumer:
-        logger.info('PASSES THROUGH CONSUMER')
         msg_str = msg.value.decode('utf-8')
         msg = json.loads(msg_str)
         logger.info("Message: {}".format(msg))
