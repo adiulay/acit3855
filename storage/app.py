@@ -180,6 +180,7 @@ def process_messages():
     
     # This is blocking - it will wait for a new message
     for msg in consumer:
+        logger.info(msg)
         msg_str = msg.value.decode('utf-8')
         msg = json.loads(msg_str)
         logger.info("Message: {}".format(msg))
