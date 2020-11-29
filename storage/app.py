@@ -187,6 +187,7 @@ def process_messages():
         logger.info("Message: {}".format(msg))
         
         payload = msg["payload"]
+        logger.info('PAYLOAD: {}'.format(payload))
         
         if msg["type"] == "domestic":
             # Stores event domestic from payload to DB
