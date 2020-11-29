@@ -41,14 +41,14 @@ logger = logging.getLogger('basicLogger')
 logger.info("App Conf File: {}".format(app_conf_file))
 logger.info("Log Conf File: {}".format(log_conf_file))
 
+CLIENT = KafkaClient(hosts='{}:{}'.format(app_config["events"]["hostname"], app_config["events"]["port"]))
+
 def add_baggage_domestic(body):
     # Logs receieves and returns event with status code INFO
     
     logger.info('Received event Add Domestic Baggage - ID: {}'.format(body['baggage_id']))
     
-    # post_request_domestic = requests.post(app_config['event_domestic']['url'], json=body) TODO
-    client = KafkaClient(hosts='{}:{}'.format(app_config["events"]["hostname"], app_config["events"]["port"]))
-    topic = client.topics['{}'.format(app_config["events"]["topic"])]
+    topic = CLIENT.topics['{}'.format(app_config["events"]["topic"])]
     producer = topic.get_sync_producer()
     
     msg = {
@@ -70,9 +70,7 @@ def add_baggage_international(body):
     
     logger.info('Received event Add International Baggage - ID: {}'.format(body['baggage_id']))
     
-    # post_request_international = requests.post(app_config['event_international']['url'], json=body) TODO
-    client = KafkaClient(hosts='{}:{}'.format(app_config["events"]["hostname"], app_config["events"]["port"]))
-    topic = client.topics['{}'.format(app_config["events"]["topic"])]
+    topic = CLIENT.topics['{}'.format(app_config["events"]["topic"])]
     producer = topic.get_sync_producer()
     
     msg = {
