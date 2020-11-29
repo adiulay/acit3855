@@ -154,18 +154,19 @@ def get_baggage_international(timestamp):
     
     return results_list, 200
 
+hostname = "{}:{}".format(app_config["events"]["hostname"], app_config["events"]["port"])
+
+client = KafkaClient(hosts=hostname)
+TOPIC = client.topics[app_config["events"]["topic"]]
+
 def process_messages():
     """ Process event messages via multi-threading """
-    hostname = "{}:{}".format(app_config["events"]["hostname"], app_config["events"]["port"])
-    
-    client = KafkaClient(hosts=hostname)
-    topic = client.topics[app_config["events"]["topic"]]
     
     # Create a consume on a consumer group, that only reads new messages
     # (uncommitted messages) when the service re-starts (i.e., it doesn't
     # read all the old messages from the history in the message queue).
     
-    consumer = topic.get_simple_consumer(
+    consumer = TOPIC.get_simple_consumer(
         consumer_group='event_group',
         reset_offset_on_start=False,
         auto_offset_reset=OffsetType.LATEST
