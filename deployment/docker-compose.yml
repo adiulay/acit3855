@@ -12,7 +12,7 @@ services:
             - "9092:9092"
         hostname: kafka
         environment:
-            KAFKA_CREATE_TOPICS: "events:4:1" # topic:partition:replicas choosing 4 partitions as start off
+            KAFKA_CREATE_TOPICS: "events:1:1" # topic:partition:replicas choosing 4 partitions as start off
             KAFKA_ADVERTISED_HOST_NAME: ec2-52-24-255-57.us-west-2.compute.amazonaws.com # docker-machine ip
             KAFKA_LISTENERS: INSIDE://:29092,OUTSIDE://:9092
             KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
