@@ -2,7 +2,7 @@ version: 1
 datastore:
     filename: data.json
 scheduler:
-    period_sec: 10
+    period_sec: 15
 eventstore:
     url: http://ec2-52-24-255-57.us-west-2.compute.amazonaws.com/storage
 datastore:
