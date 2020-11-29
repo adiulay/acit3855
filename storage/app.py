@@ -143,7 +143,6 @@ def get_baggage_international(timestamp):
     session = DB_SESSION()
     
     timestamp_datetime = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")
-    print(timestamp_datetime)
     
     international_list = session.query(InternationalBaggage).filter(InternationalBaggage.date_created >= timestamp_datetime)
     
@@ -187,7 +186,6 @@ def process_messages():
         logger.info("Message: {}".format(msg))
         
         payload = msg["payload"]
-        logger.info('PAYLOAD: {}'.format(payload))
         
         if msg["type"] == "domestic":
             # Stores event domestic from payload to DB
