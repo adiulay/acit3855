@@ -133,7 +133,7 @@ def populate_stats():
     get_international_baggages.status_code))
 
 
-    if stats_info['last_updated'] < datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'):
+    if stats_info['last_updated'] <= datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'):
         if isinstance(get_domestic_baggages.json(), list):
             stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
             logger.info("Domestic Baggage Count Updated. {}".format(len(get_domestic_baggages.json())))
