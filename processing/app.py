@@ -136,15 +136,15 @@ def populate_stats():
     if stats_info['last_updated'] <= datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'):
         logger.info("PASSES THE DATETIME CHECK...")
         if isinstance(get_domestic_baggages.json(), list):
-            logger.info("DOMESTIC PASSES CHECK ITS A LIST")
             stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
+            logger.info("Domestic Baggage Count Updated. {}".format(len(get_domestic_baggages.json())))
         else:
             logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
             logger.error('DOMESTIC: {}'.format(get_domestic_baggages.json()))
         
         if isinstance(get_international_baggages.json(), list):
-            logger.info("INTERNATIONAL PASSES CHECK ITS A LIST")
             stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + len(get_international_baggages.json())
+            logger.info("International Baggage Count Updated. {}".format(len(get_international_baggages.json())))
         else:
             logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
             logger.error('INTERNATIONAL: {}'.format(get_international_baggages.json()))
@@ -157,11 +157,11 @@ def populate_stats():
     with open(app_config['datastore']['filename'], 'w') as f:
         f.write(json.dumps(stats_info, indent=4))
         
-    logger.debug("Data store updated with num_domestic_baggages: {}, num_international_baggages: {}, total_baggages: {}".format(
-        stats_info["num_domestic_baggages"],
-        stats_info["num_international_baggages"],
-        stats_info["total_baggages"]
-    ))
+    # logger.debug("Data store updated with num_domestic_baggages: {}, num_international_baggages: {}, total_baggages: {}".format(
+    #     stats_info["num_domestic_baggages"],
+    #     stats_info["num_international_baggages"],
+    #     stats_info["total_baggages"]
+    # ))
     
     logger.info('Period processing for stats has ended')
     
