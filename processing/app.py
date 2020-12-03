@@ -119,33 +119,22 @@ def populate_stats():
     get_domestic_baggages = requests.get('{}/baggage/domestic'.format(app_config['eventstore']['url']), params=current_time)
     
     get_international_baggages = requests.get('{}/baggage/international'.format(app_config['eventstore']['url']), params=current_time)
-    
-    
-    logger.info('{} events received from domestic baggages GET request with status code {}'.format(
-    len(get_domestic_baggages.json()),
-    get_domestic_baggages.status_code))
-    
-    # logger.info('INFO ON JSON {}'.format(get_domestic_baggages.json()))
-    
-    # logger.info('WHAT TYPE IS THIS: {}'.format(type(get_domestic_baggages.json())))
-    
-    
-    logger.info('{} events received from international baggages GET request with status code {}'.format(
-    len(get_international_baggages.json()),
-    get_international_baggages.status_code))
-
 
     if stats_info['last_updated'] <= time_now:
         if isinstance(get_domestic_baggages.json(), list):
+            logger.info('{} events received from domestic baggages GET request with status code {}'.format(
+                        len(get_domestic_baggages.json()),
+                        get_domestic_baggages.status_code))
             stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
-            logger.info("Domestic Baggage Count Updated. {}".format(len(get_domestic_baggages.json())))
         else:
             logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
             logger.error('DOMESTIC: {}'.format(get_domestic_baggages.json()))
         
         if isinstance(get_international_baggages.json(), list):
             stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + len(get_international_baggages.json())
-            logger.info("International Baggage Count Updated. {}".format(len(get_international_baggages.json())))
+            logger.info('{} events received from international baggages GET request with status code {}'.format(
+                        len(get_international_baggages.json()),
+                        get_international_baggages.status_code))
         else:
             logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
             logger.error('INTERNATIONAL: {}'.format(get_international_baggages.json()))
