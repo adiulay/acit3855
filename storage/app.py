@@ -72,11 +72,16 @@ def get_baggage_count():
     
     international_list = session.query(InternationalBaggage)
     
-    logger.info(international_list)
+    results_list = []
+    
+    for baggage in international_list:
+        results_list.append(baggage.to_dict())
+        
+    logger.info(results_list)
     
     session.close()
     
-    return international_list, 200
+    return results_list, 200
 
 def add_baggage_domestic(body):
     """ logs domestic baggage (operationID from openapi) into database """
