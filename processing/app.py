@@ -171,7 +171,7 @@ def populate_stats():
     logger.info('BAGGAGE NUMBER')
     logger.info(db_cursor.fetchall()[0][0])
     db_cursor.execute(query_international)
-    print('INTERNATIONAL', db_cursor.fetchall()[0][0])
+    logger.debug('INTERNATIONAL', db_cursor.fetchall()[0][0])
     
     db_conn.close()
     
