@@ -13,8 +13,6 @@ import logging
 import logging.config
 import os
 
-import mysql.connector # for testing purposes cough cough..
-
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
     print("In Test Environment")
     app_conf_file = "/config/app_conf.yml"
