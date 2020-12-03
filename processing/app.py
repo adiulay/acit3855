@@ -121,7 +121,7 @@ def populate_stats():
     get_international_baggages = requests.get('{}/baggage/international'.format(app_config['eventstore']['url']), params=current_time)
     
     get_baggage_count = requests.get('{}/baggage/count'.format(app_config['eventstore']['url']))
-    logger.debug(get_baggage_count)
+    logger.debug(get_baggage_count.json())
 
     if stats_info['last_updated'] <= time_now:
         if isinstance(get_domestic_baggages.json(), list):
