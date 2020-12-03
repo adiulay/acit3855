@@ -13,8 +13,6 @@ import logging
 import logging.config
 import os
 
-import mysql.connector
-
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
     print("In Test Environment")
     app_conf_file = "/config/app_conf.yml"
@@ -50,28 +48,6 @@ logger.info("Log Conf File: {}".format(log_conf_file))
 
 def get_stats():
     """ get_stats GET request based on openapi.yaml """
-    DOMESTIC_NUM = 0
-    INTERNATIONAL_NUM = 0
-    
-    db_conn = mysql.connector.connect(
-        host='ec2-52-24-255-57.us-west-2.compute.amazonaws.com',
-        user='adiulay', 
-        password='P@ssw0rd',
-        database='events', 
-        port=3306
-    )
-    
-    db_cursor = db_conn.cursor()
-
-    query_domestic = "SELECT COUNT(*) FROM events.domestic_baggage"
-    query_international = "SELECT COUNT(*) FROM events.international_baggage"
-    
-    db_cursor.execute(query_domestic)
-    DOMESTIC_NUM = ('{}'.format(db_cursor.fetchall()[0][0]))
-    db_cursor.execute(query_international)
-    INTERNATIONAL_NUM = ('{}'.format(db_cursor.fetchall()[0][0]))
-    
-    db_conn.close()
     
     logger.info('GET request stats has been initiated')
     
@@ -81,10 +57,6 @@ def get_stats():
             
             # converted to object
             data_stats = json.loads(data_stats_read)
-            
-            data_stats["num_domestic_baggages"] = DOMESTIC_NUM
-            data_stats["num_international_baggages"] = INTERNATIONAL_NUM
-            data_stats["total_baggages"] = int(DOMESTIC_NUM) + int(INTERNATIONAL_NUM)
             
             show_stats = {
                 "num_domestic_baggages": data_stats["num_domestic_baggages"],
