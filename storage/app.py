@@ -69,34 +69,40 @@ TOPIC = CLIENT.topics[app_config["events"]["topic"]]
 def get_baggage_count():
     logger.info("Initiating baggage count")
     
-    db_conn = mysql.connector.connect(
-        host=app_config['datastore']['hostname'],
-        user=app_config['datastore']['user'], 
-        password=app_config['datastore']['password'],
-        database=app_config['datastore']['db'], 
-        port=app_config['datastore']['port']
-    )
-    
-    db_cursor = db_conn.cursor()
+    try:
+        db_conn = mysql.connector.connect(
+            host=app_config['datastore']['hostname'],
+            user=app_config['datastore']['user'], 
+            password=app_config['datastore']['password'],
+            database=app_config['datastore']['db'], 
+            port=app_config['datastore']['port']
+        )
+        
+        db_cursor = db_conn.cursor()
 
-    query_domestic = "SELECT COUNT(*) FROM events.domestic_baggage"
-    query_international = "SELECT COUNT(*) FROM events.international_baggage"
+        query_domestic = "SELECT COUNT(*) FROM events.domestic_baggage"
+        query_international = "SELECT COUNT(*) FROM events.international_baggage"
 
-    db_cursor.execute(query_domestic)
-    DOMESTIC_NUM = ('{}'.format(db_cursor.fetchall()[0][0]))
-    db_cursor.execute(query_international)
-    INTERNATIONAL_NUM = ('{}'.format(db_cursor.fetchall()[0][0]))
+        db_cursor.execute(query_domestic)
+        DOMESTIC_NUM = ('{}'.format(db_cursor.fetchall()[0][0]))
+        db_cursor.execute(query_international)
+        INTERNATIONAL_NUM = ('{}'.format(db_cursor.fetchall()[0][0]))
 
-    db_conn.close()
-    
-    results_list = [
-        {
-            "baggage_domestic_num": int(DOMESTIC_NUM),
-            "baggage_international_num": int(INTERNATIONAL_NUM)
-        }
-    ]
-    
-    return results_list, 200
+        db_conn.close()
+        
+        results_list = [
+            {
+                "baggage_domestic_num": int(DOMESTIC_NUM),
+                "baggage_international_num": int(INTERNATIONAL_NUM)
+            }
+        ]
+        
+        return results_list, 200
+    except:
+        results_list = [{
+            "message": "Not working"
+        }]
+        return results_list, 200
 
 def add_baggage_domestic(body):
     """ logs domestic baggage (operationID from openapi) into database """
