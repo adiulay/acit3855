@@ -61,14 +61,6 @@ DB_ENGINE = create_engine('mysql+pymysql://{}:{}@{}:{}/{}'.format(
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
-db_conn = mysql.connector.connect(
-    host=app_config['datastore']['hostname'],
-    user=app_config['datastore']['user'], 
-    password=app_config['datastore']['password'],
-    database=app_config['datastore']['db'], 
-    port=app_config['datastore']['port']
-)
-
 # kafka stuff
 HOSTNAME = "{}:{}".format(app_config["events"]["hostname"], app_config["events"]["port"])
 CLIENT = KafkaClient(hosts=HOSTNAME)
@@ -76,6 +68,14 @@ TOPIC = CLIENT.topics[app_config["events"]["topic"]]
 
 def get_baggage_count():
     logger.info("Initiating baggage count")
+    
+    db_conn = mysql.connector.connect(
+        host=app_config['datastore']['hostname'],
+        user=app_config['datastore']['user'], 
+        password=app_config['datastore']['password'],
+        database=app_config['datastore']['db'], 
+        port=app_config['datastore']['port']
+    )
     
     db_cursor = db_conn.cursor()
 
