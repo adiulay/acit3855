@@ -65,6 +65,19 @@ HOSTNAME = "{}:{}".format(app_config["events"]["hostname"], app_config["events"]
 CLIENT = KafkaClient(hosts=HOSTNAME)
 TOPIC = CLIENT.topics[app_config["events"]["topic"]]
 
+def get_baggage_count():
+    logger.info("Initiating baggage count")
+    
+    session = DB_SESSION()
+    
+    international_list = session.query(InternationalBaggage)
+    
+    logger.info(international_list)
+    
+    session.close()
+    
+    return international_list, 200
+
 def add_baggage_domestic(body):
     """ logs domestic baggage (operationID from openapi) into database """
     

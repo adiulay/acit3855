@@ -18,6 +18,32 @@ tags:
   - name: international
     description: baggage's inbound outbound for international
 paths:
+  /baggage/count:
+    get:
+      tags:
+        - domestic
+        - international
+      summary: gets total number count
+      operationId: app.get_baggage_count
+      description: Gets total number count
+      responses:
+        '200':
+          description: Successfully returned number baggage count
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BaggageCount'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
   /baggage/domestic:
     get:
       tags: 
@@ -86,6 +112,20 @@ paths:
                     type: string
 components:
   schemas:
+    BaggageCount:
+      type: object
+      required: 
+        - baggage_domestic_num
+        - baggage_international_num
+      properties:
+        baggage_domestic_num:
+          type: integer
+          format: number
+          example: 25
+        baggage_international_num:
+          type: integer
+          format: number
+          example: 26
     DomesticBaggage:
       type: object
       required:
