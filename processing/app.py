@@ -90,7 +90,7 @@ def populate_stats():
     
     stats_info = ''
     
-    current_time = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+    time_now = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
     
     try:
         with open(app_config['datastore']['filename'], 'r') as f:
@@ -103,7 +103,7 @@ def populate_stats():
                 "num_domestic_baggages": 0,
                 "num_international_baggages": 0,
                 "total_baggages": 0,
-                "last_updated": current_time
+                "last_updated": time_now
             }
             f.write(json.dumps(json_template, indent=4))
         
@@ -135,7 +135,7 @@ def populate_stats():
     get_international_baggages.status_code))
 
 
-    if stats_info['last_updated'] <= current_time:
+    if stats_info['last_updated'] <= time_now:
         if isinstance(get_domestic_baggages.json(), list):
             stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
             logger.info("Domestic Baggage Count Updated. {}".format(len(get_domestic_baggages.json())))
@@ -153,7 +153,7 @@ def populate_stats():
 
     # Updating data.json file
     stats_info["total_baggages"] = stats_info["num_domestic_baggages"] + stats_info["num_international_baggages"]
-    stats_info["last_updated"] = current_time
+    stats_info["last_updated"] = time_now
     
     with open(app_config['datastore']['filename'], 'w') as f:
         f.write(json.dumps(stats_info, indent=4))
