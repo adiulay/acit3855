@@ -156,11 +156,11 @@ def populate_stats():
     with open(app_config['datastore']['filename'], 'w') as f:
         f.write(json.dumps(stats_info, indent=4))
         
-    logger.debug("Data store updated with num_domestic_baggages: {}, num_international_baggages: {}, total_baggages: {}".format(
-        stats_info["num_domestic_baggages"],
-        stats_info["num_international_baggages"],
-        stats_info["total_baggages"]
-    ))
+    # logger.debug("Data store updated with num_domestic_baggages: {}, num_international_baggages: {}, total_baggages: {}".format(
+    #     stats_info["num_domestic_baggages"],
+    #     stats_info["num_international_baggages"],
+    #     stats_info["total_baggages"]
+    # ))
     
     logger.info('Period processing for stats has ended')
     
