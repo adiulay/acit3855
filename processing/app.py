@@ -121,8 +121,6 @@ def populate_stats():
     get_international_baggages = requests.get('{}/baggage/international'.format(app_config['eventstore']['url']), params=current_time)
     
     get_baggage_count = requests.get('{}/baggage/count'.format(app_config['eventstore']['url']))
-    logger.debug(get_baggage_count.json()[0]['baggage_domestic_num'])
-    logger.debug(get_baggage_count.json()[0]['baggage_international_num'])
 
     if stats_info['last_updated'] <= time_now:
         if isinstance(get_domestic_baggages.json(), list):
@@ -130,12 +128,14 @@ def populate_stats():
                         len(get_domestic_baggages.json()),
                         get_domestic_baggages.status_code))
             stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
+            stats_info["num_domestic_baggages"] = get_baggage_count.json()[0]['baggage_domestic_num']
         else:
             logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
             logger.error('DOMESTIC: {}'.format(get_domestic_baggages.json()))
         
         if isinstance(get_international_baggages.json(), list):
             stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + len(get_international_baggages.json())
+            stats_info["num_international_baggages"] = get_baggage_count.json()[0]['baggage_international_num']
             logger.info('{} events received from international baggages GET request with status code {}'.format(
                         len(get_international_baggages.json()),
                         get_international_baggages.status_code))
