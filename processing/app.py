@@ -13,6 +13,8 @@ import logging
 import logging.config
 import os
 
+import mysql.connector # for testing purposes cough cough..
+
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
     print("In Test Environment")
     app_conf_file = "/config/app_conf.yml"
@@ -154,6 +156,27 @@ def populate_stats():
     # ))
     
     logger.info('Period processing for stats has ended')
+    
+    db_conn = mysql.connector.connect(
+        host='ec2-52-24-255-57.us-west-2.compute.amazonaws.com',
+        user='adiulay', 
+        password='P@ssw0rd',
+        database='events', 
+        port=3306
+    )
+
+    db_cursor = db_conn.cursor()
+
+    query_domestic = "SELECT COUNT(*) FROM events.domestic_baggage"
+    query_international = "SELECT COUNT(*) FROM events.international_baggage"
+
+    db_cursor.execute(query_domestic)
+    logger.info('DOMESTIC BAGGAGE', db_cursor.fetchall())
+    db_cursor.execute(query_international)
+    logger.info('INTERNATIONAL', db_cursor.fetchall())
+
+    db_conn.close()
+    
     
     
     
