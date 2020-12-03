@@ -168,10 +168,9 @@ def populate_stats():
     query_international = "SELECT COUNT(*) FROM events.international_baggage"
     
     db_cursor.execute(query_domestic)
-    logger.info('BAGGAGE NUMBER')
-    logger.info(db_cursor.fetchall()[0][0])
+    logger.debug('BAGGAGE NUMBER = {}'.format(db_cursor.fetchall()[0][0]))
     db_cursor.execute(query_international)
-    logger.debug('INTERNATIONAL', db_cursor.fetchall()[0][0])
+    logger.debug('INTERNATIONAL = {}'.format(db_cursor.fetchall()[0][0]))
     
     db_conn.close()
     
