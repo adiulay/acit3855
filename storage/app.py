@@ -91,8 +91,8 @@ def get_baggage_count():
     
     results_list = [
         {
-            "baggage_domestic_num": DOMESTIC_NUM,
-            "baggage_international_num": INTERNATIONAL_NUM
+            "baggage_domestic_num": int(DOMESTIC_NUM),
+            "baggage_international_num": int(INTERNATIONAL_NUM)
         }
     ]
     
