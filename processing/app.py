@@ -147,24 +147,24 @@ def populate_stats():
         else:
             logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
             logger.error('INTERNATIONAL: {}'.format(get_international_baggages.json()))
-
-
-    # Updating data.json file
-    stats_info["total_baggages"] = stats_info["num_domestic_baggages"] + stats_info["num_international_baggages"]
-    stats_info["last_updated"] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
-    
-    with open(app_config['datastore']['filename'], 'w') as f:
-        f.write(json.dumps(stats_info, indent=4))
+            
+        # Updating data.json file
+        stats_info["total_baggages"] = stats_info["num_domestic_baggages"] + stats_info["num_international_baggages"]
+        stats_info["last_updated"] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
         
+        with open(app_config['datastore']['filename'], 'w') as f:
+            f.write(json.dumps(stats_info, indent=4))
+            
+        logger.info('Period processing for stats has ended with updated results')
+    else:
+        logger.info('Period processing for stats has ended')
+        return
+
     # logger.debug("Data store updated with num_domestic_baggages: {}, num_international_baggages: {}, total_baggages: {}".format(
     #     stats_info["num_domestic_baggages"],
     #     stats_info["num_international_baggages"],
     #     stats_info["total_baggages"]
     # ))
-    
-    logger.info('Period processing for stats has ended')
-    
-    
     
 def init_scheduler():
     sched = BackgroundScheduler(daemon=True)
