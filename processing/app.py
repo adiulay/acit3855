@@ -90,6 +90,8 @@ def populate_stats():
     
     stats_info = ''
     
+    current_time = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+    
     try:
         with open(app_config['datastore']['filename'], 'r') as f:
             data_read = f.read()
@@ -101,7 +103,7 @@ def populate_stats():
                 "num_domestic_baggages": 0,
                 "num_international_baggages": 0,
                 "total_baggages": 0,
-                "last_updated": datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+                "last_updated": current_time
             }
             f.write(json.dumps(json_template, indent=4))
         
@@ -133,7 +135,7 @@ def populate_stats():
     get_international_baggages.status_code))
 
 
-    if stats_info['last_updated'] <= datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'):
+    if stats_info['last_updated'] <= current_time:
         if isinstance(get_domestic_baggages.json(), list):
             stats_info["num_domestic_baggages"] = stats_info["num_domestic_baggages"] + len(get_domestic_baggages.json())
             logger.info("Domestic Baggage Count Updated. {}".format(len(get_domestic_baggages.json())))
@@ -147,24 +149,24 @@ def populate_stats():
         else:
             logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
             logger.error('INTERNATIONAL: {}'.format(get_international_baggages.json()))
-            
-        # Updating data.json file
-        stats_info["total_baggages"] = stats_info["num_domestic_baggages"] + stats_info["num_international_baggages"]
-        stats_info["last_updated"] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
-        
-        with open(app_config['datastore']['filename'], 'w') as f:
-            f.write(json.dumps(stats_info, indent=4))
-            
-        logger.info('Period processing for stats has ended with updated results')
-    else:
-        logger.info('Period processing for stats has ended')
-        return
 
+
+    # Updating data.json file
+    stats_info["total_baggages"] = stats_info["num_domestic_baggages"] + stats_info["num_international_baggages"]
+    stats_info["last_updated"] = current_time
+    
+    with open(app_config['datastore']['filename'], 'w') as f:
+        f.write(json.dumps(stats_info, indent=4))
+        
     # logger.debug("Data store updated with num_domestic_baggages: {}, num_international_baggages: {}, total_baggages: {}".format(
     #     stats_info["num_domestic_baggages"],
     #     stats_info["num_international_baggages"],
     #     stats_info["total_baggages"]
     # ))
+    
+    logger.info('Period processing for stats has ended')
+    
+    
     
 def init_scheduler():
     sched = BackgroundScheduler(daemon=True)
