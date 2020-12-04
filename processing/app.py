@@ -141,7 +141,7 @@ def populate_stats():
                         get_international_baggages.status_code))
             # difference = get_baggage_count.json()[0]['baggage_international_num'] - stats_info["num_international_baggages"]
             # if difference >= 0:
-            stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + get_international_baggages.json()
+            stats_info["num_international_baggages"] = stats_info["num_international_baggages"] + len(get_international_baggages.json())
             
         else:
             logger.error('PROBLEM, THE OUTPUT IS NOT A LIST SEE HERE')
