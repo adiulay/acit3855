@@ -3,23 +3,21 @@ formatters:
     simple:
         format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 handlers:
-    # console:
-    #     class: logging.StreamHandler
-    #     level: DEBUG
-    #     formatter: simple
-    #     stream: ext://sys.stdout
+    console:
+        class: logging.StreamHandler
+        level: INFO
+        formatter: simple
+        stream: ext://sys.stdout
     file:
         class: logging.FileHandler
-        level: DEBUG
+        level: INFO
         formatter: simple
         filename: /logs/app_storage.log
 loggers:
     basicLogger:
-        level: DEBUG
-        # handlers: [console, file]
-        handlers: [file]
+        level: INFO
+        handlers: [console, file]
         propagate: no
 root:
-    level: DEBUG
-    # handlers: [console]
-    handlers: [file]
+    level: INFO
+    handlers: [console]
