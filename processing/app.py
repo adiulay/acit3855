@@ -162,6 +162,8 @@ def populate_stats():
     # ))
     logger.info('Periodic processing for stats has ended')
     
+    logger.info("THIS IS CHANGED")
+    
 def init_scheduler():
     sched = BackgroundScheduler(daemon=True)
     sched.add_job(populate_stats,
