@@ -86,7 +86,7 @@ def get_stats():
 def populate_stats():
     """ Periodically update stats """
     
-    # logger.info('Periodic processing for stats has been initiated')
+    logger.info('Periodic processing for stats has been initiated')
     
     stats_info = ''
     
@@ -119,10 +119,9 @@ def populate_stats():
     get_domestic_baggages = requests.get('{}/baggage/domestic'.format(app_config['eventstore']['url']), params=current_time)
     
     get_international_baggages = requests.get('{}/baggage/international'.format(app_config['eventstore']['url']), params=current_time)
-    
-    get_baggage_count = requests.get('{}/baggage/count'.format(app_config['eventstore']['url']))
 
     if stats_info['last_updated'] <= time_now:
+        get_baggage_count = requests.get('{}/baggage/count'.format(app_config['eventstore']['url']))
         if isinstance(get_domestic_baggages.json(), list):
             logger.info('{} events received from domestic baggages GET request with status code {}'.format(
                         len(get_domestic_baggages.json()),
@@ -156,12 +155,12 @@ def populate_stats():
     with open(app_config['datastore']['filename'], 'w') as f:
         f.write(json.dumps(stats_info, indent=4))
         
-    # logger.debug("Data store updated with num_domestic_baggages: {}, num_international_baggages: {}, total_baggages: {}".format(
+    # logger.info("Data store updated with num_domestic_baggages: {}, num_international_baggages: {}, total_baggages: {}".format(
     #     stats_info["num_domestic_baggages"],
     #     stats_info["num_international_baggages"],
     #     stats_info["total_baggages"]
     # ))
-    
+    logger.info('Periodic processing for stats has ended')
     
 def init_scheduler():
     sched = BackgroundScheduler(daemon=True)
